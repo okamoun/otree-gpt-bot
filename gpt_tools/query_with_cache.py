@@ -18,6 +18,13 @@ openai.api_key = "YOUR_API_KEY"
 result_file_name= 'open_ai_result.csv'
 import random
 logging.basicConfig(level=logging.WARNING)
+
+
+openai.api_key =  os.getenv('OPEN_API_KEY')
+
+result_file_name= 'open_ai_result.csv'
+logging.info(f"openai.api_key: {openai.api_key}")
+
 # define a retry decorator
 def retry_with_exponential_backoff(
     func,
