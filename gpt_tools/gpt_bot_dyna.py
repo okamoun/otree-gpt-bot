@@ -288,8 +288,12 @@ class GPTBotDyna(otree.api.Bot):
                            'profile promt generation': str(type(self.ptp))}
 
         json.dump(session_details, open(self.folder_log + "session_details.json", 'w'), indent=4)
-
-
+        folder_name = "participant_memory"
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name)
+            logging.info(f"folder {folder_name} created")
+        else:
+            logging.info(f"folder {folder_name} exist")
     def play_round(self):
 
 

@@ -15,6 +15,7 @@ class MyHTMLParser(HTMLParser):
         super().__init__()
         self.fields = {}
 
+
     def handle_starttag(self, tag, attrs):
         if tag in ['input', 'select', 'textarea']:
             attrs_dict = dict(attrs)
@@ -67,10 +68,17 @@ class GPTBot(otree.api.Bot):
         self.use_profile =self.session.config.get('use_profile',self.use_profile)
         self.default_engine_param = self.session.config.get('default_engine_param',self.default_engine_param)
         session_details={'nb profile in file ':len(pd_profile), }
+        ## check if folder exist else create it
+        folder_name = 'participant_memory'
+
+
 
     def play_round(self):
-
-
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name)
+            logging.info(f"folder {folder_name} created")
+        else:
+            logging.info(f"folder {folder_name} exist")
         use_cache = self.session.config.get('gpt_cache', True)
         if self.case == 'gpt':
             for page in self.pages_seq:
@@ -115,13 +123,7 @@ class GPTBot(otree.api.Bot):
         logging.debug(f"generate prompt   {prompt}")
 
         if 'P' in use_participant_memory:
-            ## check if folder exist else create it
-            folder_name='participant_memory'
-            if not os.path.exists(folder_name):
-                os.makedirs(folder_name)
-                logging.info(f"folder {folder_name } created")
-            else :
-                logging.info(f"folder {folder_name} exist")
+
 
             ## check if file exists
             memory_file = "participant_memory/"+ self.participant.code + '.json'
