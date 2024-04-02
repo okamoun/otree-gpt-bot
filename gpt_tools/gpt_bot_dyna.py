@@ -5,7 +5,7 @@ import pandas as pd
 from otree.api import Currency as c, currency_range,Page,Submission
 import time
 from html.parser import HTMLParser
-from gpt_tools import QueryWithCache,ProfileToPromptIL
+from gpt_tools import QueryWithCache,ProfileToPromptUS
 from bs4 import BeautifulSoup,element
 import otree.api
 import traceback
@@ -20,6 +20,7 @@ def log_traceback(ex, ex_traceback=None):
 logging.basicConfig(level=logging.DEBUG)
 pages=[]
 class MyHTMLParser(HTMLParser):
+
     def __init__(self):
         super().__init__()
         self.fields = {}
@@ -221,7 +222,7 @@ class GPTSoup(BeautifulSoup):
                 logging.info(f'not using match function for choices for {f_id} ')
         return new_answer_dict
 class GPTBotDyna(otree.api.Bot):
-
+    template_path = os.path.dirname(os.path.realpath(__file__)) + "/template_otree_file.html"
     pages_seq=[]
     openai = QueryWithCache()
     default_engine_param={'n':2}
@@ -232,7 +233,7 @@ class GPTBotDyna(otree.api.Bot):
     prompt_template_diag_number = '{text} give the  answer as a number in json format'
     prompt_template_diag_table = '{text} give the  answer  in json format'
 
-    ptp=ProfileToPromptIL()
+    ptp=ProfileToPromptUS()
     use_profile=True
     profile_file="/Users/olivierkamoun/PycharmProjects/tau_thesis_tools/court_survey/data/default_profile.csv"
     use_chatCompletion=True
@@ -404,9 +405,10 @@ class GPTBotDyna(otree.api.Bot):
         remove_list = ['debug', 'script']
         ep=self.default_engine_param.copy()
         self.default_engine_param.update(engine_param)
+
         ## read html template from file template_otree.html
-        with open("gpt_tools/template_otree_file.html", "r") as f:
-                html_header = f.read()
+        with open(self.template_path, "r") as f:
+            html_header = f.read()
         page_name = "page_" + page.__name__
         myhtml_raw = html_header+str(html)[3:]
         with open(self.folder_log+page_name + '_raw.html', 'w') as file:
@@ -515,8 +517,9 @@ class GPTBotDyna(otree.api.Bot):
         ep=self.default_engine_param.copy()
         self.default_engine_param.update(engine_param)
         ## read html template from file template_otree.html
-        with open("gpt_tools/template_otree_file.html", "r") as f:
-                html_header = f.read()
+        with open(self.template_path, "r") as f:
+            html_header = f.read()
+
         page_name = "page_" + page.__name__
         myhtml_raw = html_header+str(html)[3:]
         with open(self.folder_log+page_name + '_raw.html', 'w') as file:

@@ -1,0 +1,8 @@
+# oTree-GPTBot requirements file
+beautifulsoup4==4.12.3
+numpy==1.24.2
+openai==0.27.7
+otree==5.10.3
+pandas==2.0.2
+Requests==2.31.0
+ws4py==0.5.1

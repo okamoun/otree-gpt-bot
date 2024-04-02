@@ -115,6 +115,14 @@ class GPTBot(otree.api.Bot):
         logging.debug(f"generate prompt   {prompt}")
 
         if 'P' in use_participant_memory:
+            ## check if folder exist else create it
+            folder_name='participant_memory'
+            if not os.path.exists(folder_name):
+                os.makedirs(folder_name)
+                logging.info(f"folder {folder_name } created")
+            else :
+                logging.info(f"folder {folder_name} exist")
+
             ## check if file exists
             memory_file = "participant_memory/"+ self.participant.code + '.json'
             if os.path.exists(memory_file):

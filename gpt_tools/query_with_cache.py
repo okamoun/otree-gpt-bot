@@ -14,8 +14,11 @@ logger= logging.getLogger()
 #
 # ==========================================================================
 #
-openai.api_key = "YOUR_API_KEY"
-result_file_name= 'open_ai_result.csv'
+
+## get API KEy from environment
+
+
+
 import random
 logging.basicConfig(level=logging.WARNING)
 
