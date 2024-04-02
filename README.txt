@@ -23,4 +23,6 @@ How to use with your project :
          gpt_cache=False, (default is True)
           profile_file= (full path to the profile file)
           BotType='dialog' (dialog or html)
+  - add you OPENAI_API_KEY to the environment variable ex :
+          export OPENAI_API_KEY=sk-XXXXX
   - to launches the gpt bots :  otree browser_bots #SETTING_NAME #NB_PARTICIPANTS exam[le : otree browser_bots basic1anddialog 10
