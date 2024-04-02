@@ -90,7 +90,8 @@ class GPTBot(otree.api.Bot):
         ep=self.default_engine_param.copy()
         self.default_engine_param.update(engine_param)
         ## read html template from file template_otree.html
-        with open("gpt_tools/template_otree_file.html", "r") as f:
+        template_path= os.path.abspath(os.path.join('./template_otree_file.html'))
+        with open(template_path, "r") as f:
                 html_header = f.read()
         page_name = "page_" + page.__name__
         myhtml_raw = html_header+str(html)[3:]
