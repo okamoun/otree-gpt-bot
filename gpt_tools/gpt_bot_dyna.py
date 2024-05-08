@@ -386,7 +386,13 @@ class GPTBotDyna(otree.api.Bot):
                 logging.info(f'clean  {clean_dform} using {dform_txt} nb_fields {nb_fields}')
 
                 if clean_dform_len == nb_fields:
-                    best_form_field = {tf[i]['f_id']: clean_dform[list(clean_dform.keys())[i]] for i in range(nb_fields)}
+                    logging.info(f'same number of fields  { {tf[i]["f_id"]:  list(clean_dform.keys())[i] for i in range(nb_fields)} }')
+                    l1 = [tf[i]['f_id'] for i in range(nb_fields)]
+                    l2 = list(clean_dform.keys())
+                    l1.sort()
+                    l2.sort()
+                    logging.info(f'fields {l1} {l2}')
+                    best_form_field = {l1[i]: clean_dform[l2[i]] for i in range(nb_fields)}
                     break
                 elif isinstance(clean_dform[list(clean_dform.keys())[0]],list) and len(clean_dform[list(clean_dform.keys())[0]])==nb_fields:
                     best_form_field = {tf[i]['f_id']: clean_dform[list(clean_dform.keys())[0]][i] for i in range(nb_fields)}
@@ -502,7 +508,7 @@ class GPTBotDyna(otree.api.Bot):
         self.htmlParse = GPTSoup(h, 'html.parser')
         field_list = self.htmlParse.get_all_field_in_html()
 
-        logging.info(f"html prompt {field_list}")
+        logging.info(f"html prompt field_list {field_list}")
         clean_dform = self.response_to_form(field_list,results)
         logging.info(f"html prompt clean_dform {clean_dform}")
 

@@ -5,7 +5,7 @@ import pandas as pd
 class ProfileToPromptUS():
     # create a chet gpt prompt to define the profile of the person base on age, sex, and religion
 
-    def __init__(self, profile_dict=None):
+    def __init__(self, profile_dict=None,profile_seq=None):
         self.profile_dict = profile_dict
         self.profile_templates = {
             "age": self.age_promt,
@@ -14,14 +14,18 @@ class ProfileToPromptUS():
             "last_elect": self.last_elect_promt,
             "educ": self.educ_promt,
             "religion": self.religion_promt,
+            "residence": self.residence_promt,
+            "ownhome": self.ownhome_promt,
         }
-
-        self.profile_seq = [
-            "sex", "age",
-            "last_elect",
-            "educ",
-            "religion"
-        ]
+        if profile_seq is not None:
+            self.profile_seq = profile_seq
+        else :
+            self.profile_seq = [
+                "sex", "age",
+                "last_elect",
+                "educ",
+                "religion"
+            ]
 
     def clean_value(self, field_name):
         c = str(self.profile_dict[field_name])
@@ -71,6 +75,20 @@ class ProfileToPromptUS():
         c = self.clean_value('religpew')
         if c is not None:
             return f"  your religion is      {c}"
+        else:
+            return ""
+
+    def residence_promt(self):
+        c = self.clean_value('inputstate')
+        if c is not None:
+            return f"  you live in  {c} "
+        else:
+            return ""
+
+    def ownhome_promt(self):
+        c = self.clean_value('ownhome')
+        if c is not None:
+            return f"  you {c} your home "
         else:
             return ""
 
