@@ -502,7 +502,7 @@ class GPTBotDyna(otree.api.Bot):
         self.htmlParse = GPTSoup(h, 'html.parser')
         field_list = self.htmlParse.get_all_field_in_html()
 
-        logging.info(f"html prompt field_list {field_list}")
+        logging.info(f"html prompt {field_list}")
         clean_dform = self.response_to_form(field_list,results)
         logging.info(f"html prompt clean_dform {clean_dform}")
 
