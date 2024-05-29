@@ -267,8 +267,16 @@ class GPTBotDyna(otree.api.Bot):
                                                     self.bot_type)
         self.active_fill_form = getattr(self, 'fill_html_form_'+self.bot_type)
         self.use_profile = self.session.config.get('use_profile', self.use_profile)
-        self.profile_file = self.session.config.get('profile_file',
-                                                    self.profile_file)
+        self.profile_file = self.session.config.get('profile_file',self.profile_file)
+
+
+        profile_seq = getattr(self, 'profile_seq', None)
+        self.profile_seq = self.session.config.get('profile_seq', None)
+        if self.profile_seq is not None :
+            self.ptp.profile_seq = self.profile_seq
+        else :
+            self.profile_seq =  self.ptp.profile_seq
+            self.session.config['profile_seq'] = self.profile_seq
         ## move to profile object to be shared between bots
         pd_profile=pd.read_csv(self.profile_file)
         logging.info(f"pd_profile reading profile file {self.profile_file} number of records {len(pd_profile)} participant {self.participant.id_in_session} ")

@@ -4,7 +4,7 @@
 The otree-server-setup directory contain an example of the setup
 
 How to use with your project :
- - copy the gpt_tools directory in your otree project directory
+ - copy the gpt_tools directory in your otree project directory (if project doesn't exist use command : otree startproject myproject)
   -run pip install -r requirements.txt
   - start otreee server with the command `otree devserver`
   - in you otree project add or modify test.py to add the gpt bots(see sample_test.py)
