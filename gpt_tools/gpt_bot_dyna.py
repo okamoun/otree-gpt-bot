@@ -238,10 +238,10 @@ class GPTBotDyna(otree.api.Bot):
     profile_file="/Users/olivierkamoun/PycharmProjects/tau_thesis_tools/court_survey/data/default_profile.csv"
     use_chatCompletion=True
     sleep_before_start=0
-    folder_log_root ="/Users/olivierkamoun/PycharmProjects/otree-survey/log/"
+    folder_log_root ="log/"
     background_file = None
     initial_system_message = None
-    folder_log ="/Users/olivierkamoun/PycharmProjects/otree-survey/log/"
+    folder_log ="log/"
     active_fill_form=None
     bot_type='html'
     cross_round_memory = False
@@ -502,7 +502,7 @@ class GPTBotDyna(otree.api.Bot):
                 json.dump(messages,file)
             r = self.openai.exec_open_ai(use_cache=use_cache,
                                          engine_param=ep,messages=messages,use_chat_completion=True)
-            results = [c['message']['content'] for c in r['choices']]
+            results = [c.message.content for c in r.choices]
 
         else :
             with open(self.folder_log+page_name + 'prompt.html', 'w') as file:
@@ -612,7 +612,7 @@ class GPTBotDyna(otree.api.Bot):
                     json.dump(messages,file)
                 r = self.openai.exec_open_ai(use_cache=use_cache,
                                              engine_param=ep,messages=messages,use_chat_completion=True)
-                results = [c['message']['content'] for c in r['choices']]
+                results = [c.message.content for c in r.choices]
 
             else :
                 with open(self.folder_log+page_name + 'prompt.html', 'w') as file:

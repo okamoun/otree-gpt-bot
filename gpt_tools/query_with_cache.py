@@ -35,9 +35,10 @@ def retry_with_exponential_backoff(
     exponential_base: float = 2,
     jitter: bool = True,
     max_retries: int = 10,
-    errors: tuple = (openai.error.RateLimitError,openai.error.ServiceUnavailableError,requests.exceptions.Timeout,
-                     requests.exceptions.ReadTimeout,openai.error.Timeout),
+    errors: tuple = (openai.RateLimitError,requests.exceptions.Timeout,
+                     requests.exceptions.ReadTimeout),
 ):
+
     """Retry a function with exponential backoff."""
 
     def wrapper(*args, **kwargs):
@@ -81,7 +82,20 @@ def completions_with_backoff(**kwargs):
 
 @retry_with_exponential_backoff
 def chat_completions_with_backoff(**kwargs):
-    return  openai.ChatCompletion.create(**kwargs)
+    response = openai.chat.completions.create(**kwargs)
+    return response
+#    res=[]
+#    for c in response.choices:
+#        res.append({'index':c.index,
+#                    'message':{'role':c.message.role,'content':c.message.content}})
+#    return  {'id':response.id,'object':response.object,'created':response.created,
+#             'model':response.model, 'choices': res}
+
+
+def object_tojson(obj):
+    return json.loads(json.dumps(obj, default=lambda o: o.__dict__,
+                      sort_keys=True, indent=4))
+
 
 
 class QueryWithCache():
@@ -112,8 +126,7 @@ class QueryWithCache():
 
         self.default_engine_papram = {"model": "gpt-3.5-turbo",
                                         "temperature": 1,
-                                        "max_tokens": 256,
-                                         "request_timeout" : 20
+                                        "max_tokens": 256
         }
 
     def load_cache(self):
@@ -169,7 +182,9 @@ class QueryWithCache():
                 self.cache_status[unique_key] = prompt
 
             with open(self.cache_folder+unique_key+".json", "w") as outfile:
-                json.dump(result, outfile)
+                logging.debug(f"writing cache file {unique_key}")
+
+                json.dump(object_tojson(result), outfile)
 
             with open(self.cache_file_name , 'w') as f:
                 # Dump the dictionary to the file
